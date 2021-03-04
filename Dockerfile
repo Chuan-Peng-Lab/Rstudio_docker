@@ -5,7 +5,10 @@ USER $NB_UID
 RUN R -e "install.packages('tidyverse', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('brms', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('cmdstanr', repos = c('https://mc-stan.org/r-packages/', getOption('repos')))"
-RUN R -e "cmdstanr::install_cmdstan(path = '/hom/rstudio/.cmdstanr')"
+
+RUN mkdir -p /home/rstudio/.cmdstanr
+ENV PATH="/home/rstudio/.cmdstanr:${PATH}"
+RUN R -e "cmdstanr::install_cmdstan(dir = '/home/rstudio/.cmdstanr', cores = 4)"
 
 # install lib dependencies
 

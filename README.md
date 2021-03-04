@@ -1,10 +1,10 @@
 # rstudio_docker (my working env)
 
-This repo is to ensure reproducibility of analyses from [Hu Chuan-Peng](huchuanpeng.com)'s team. This [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) helped me to build and maintain this repo, many thanks.
+This repo is to ensure reproducibility of analyses from [Hu Chuan-Peng](https://huchuanpeng.com/)'s team. This [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) helped me to build and maintain this repo, many thanks.
 
 The primary purpose of this docker image is to ensure my collaborators can run `brms` across different platforms, so that they don't need to worry about the installation problems.
 
-This docker image can be used for Bayesian analyses, it includes the following packages: `brms`, `cmdstanr`, `tidybayes`. Also, it includes `tidyverse`, `metafor`. I wiill include more packages in the future. You can also easily install new packages and save the docker images locally, please see the [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) I mentioned above.
+This docker image can be used for Bayesian analyses, it includes the following packages: `brms`, `cmdstanr`, `tidybayes`. Also, it includes `tidyverse`, `metafor`. I will include more packages in the future. You can also easily install new packages and save the docker images locally, please see the [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) I mentioned above.
 
 ## About docker
 
