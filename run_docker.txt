@@ -1,0 +1,6 @@
+docker run -e PASSWORD=hcplab2021 --cpus=4 --rm -p 8787:8787 -v /home/hcp4715/docker_R:/home/rstudio/tutorial verse_bayes
+
+fit1 <- brm(count ~ zAge + zBase * Trt + (1|patient), 
+	    cores = parallel::detectCores(),
+	    chains = 4,
+            data = epilepsy, family = poisson())
