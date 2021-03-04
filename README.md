@@ -49,13 +49,13 @@ docker run ---- Run a docker image in a container
 
 /home/hcp4715/docker_R ---- The directory of a local folder where I stored my data. [For Linux]
 
-/d/hcp4715/docker_R ---- The directory of a local folder under drive D. It appears as D:\hcp4715\hddm_docker in windows system.
+/d/hcp4715/docker_R ---- The directory of a local folder under drive D. It appears as D:\hcp4715\docker_R in windows system.
 
 /home/rstudio/tutorial ---- The directory inside the docker image (the mounting point of the local folder in the docker image). Note that the docker container itself likes a mini virtual linux system, so the file system inside it is linux style.
 
 -p ---- Publish a container’s port(s) to the host
 
-hcp4715/rstudio_bayes:firsttry ---- The docker image to run. Note that you shoud include `:firsttry` part, otherwise docker will instead use "hcp4715/rstudio_bayes:latest", which does not exist.
+hcp4715/rstudio_bayes:cmdstanr ---- The docker image to run. Note that you shoud include the tag `:cmdstanr` part, otherwise docker will instead use "hcp4715/rstudio_bayes:latest".
 
 **After running the code above, you shall see output as below:**
 
