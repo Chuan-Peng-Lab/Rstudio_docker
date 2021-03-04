@@ -1,4 +1,4 @@
-# Rstudio-docker (Hu Chuan-Peng's working env)
+# docker_rstudio (my working env)
 
 This repo is to ensure reproducibility of analysis from [Hu Chuan-Peng](huchuanpeng.com)'s work. This [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) helped me to build and maintain this repo, many thanks.
 
@@ -95,13 +95,15 @@ library(tidyverse)
 fit1 <- brm(count ~ zAge + zBase * Trt + (1|patient), 
 	    cores = parallel::detectCores(),
 	    chains = 4,  # this number should not exceed the number of cpus you assigned to docker.
-            data = epilepsy, family = poisson())
+        data = epilepsy, family = poisson())
 
 # fit a testing model from brms, use cmdstanr as the backend
+library(cmdstanr)
 fit1 <- brm(count ~ zAge + zBase * Trt + (1|patient), 
 	    cores = parallel::detectCores(),
 	    chains = 4,  # this number should not exceed the number of cpus you assigned to docker.
-            data = epilepsy, family = poisson())
+		backend = 'cmdstanr',
+        data = epilepsy, family = poisson())
 
 # check the summary of the model
 summary(fit1)
