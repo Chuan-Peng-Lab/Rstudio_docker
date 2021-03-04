@@ -1,8 +1,10 @@
-# docker_rstudio (my working env)
+# rstudio_docker (my working env)
 
-This repo is to ensure reproducibility of analysis from [Hu Chuan-Peng](huchuanpeng.com)'s work. This [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) helped me to build and maintain this repo, many thanks.
+This repo is to ensure reproducibility of analyses from [Hu Chuan-Peng](huchuanpeng.com)'s team. This [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) helped me to build and maintain this repo, many thanks.
 
-Now the primary purpose of this image is to ensure my collaborators can run `brms` across different platforms.
+The primary purpose of this docker image is to ensure my collaborators can run `brms` across different platforms, so that they don't need to worry about the installation problems.
+
+This docker image can be used for Bayesian analyses, it includes the following packages: `brms`, `cmdstanr`, `tidybayes`. Also, it includes `tidyverse`, `metafor`. I wiill include more packages in the future. You can also easily install new packages and save the docker images locally, please see the [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) I mentioned above.
 
 ## About docker
 
@@ -23,13 +25,14 @@ Mac OS: https://docs.docker.com/docker-for-mac/install/
 ### Step 2: pull this image form dock hub
 
 ```
-docker pull hcp4715/rstudio_bayes
+docker pull hcp4715/rstudio_bayes            # docker will try to find a image "hcp4715/rstudio_bayes:latest"
+docker pull hcp4715/rstudio_bayes:cmdstanr   # docker will try to find a image "hcp4715/rstudio_bayes:cmdstanr"
 ```
 
 ### Step 3: run the docker image:
 
 ```
-docker run -e PASSWORD=hcplab2021 --cpus=4 -it --rm -p 8787:8787 -v /home/hcp4715/docker_R:/home/rstudio/tutorial hcp4715/rstudio_bayes:firsttry
+docker run -e PASSWORD=hcplab2021 --cpus=4 -it --rm -p 8787:8787 -v /home/hcp4715/docker_R:/home/rstudio/tutorial hcp4715/rstudio_bayes:cmdstanr
 ```
 
 docker run ---- Run a docker image in a container
