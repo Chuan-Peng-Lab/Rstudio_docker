@@ -4,7 +4,7 @@ This repo is to ensure reproducibility of analyses from [Hu Chuan-Peng](https://
 
 The primary purpose of this docker image is to ensure my collaborators can run `brms` across different platforms, so that they don't need to worry about the installation problems.
 
-This docker image can be used for Bayesian analyses, it includes the following packages: `brms`, `cmdstanr`, `tidybayes`. Also, it includes `tidyverse`, `metafor`. I will include more packages in the future. You can also easily install new packages and save the docker images locally, please see the [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) I mentioned above.
+This docker image can be used for Bayesian analyses, it includes the following packages: `brms`, `cmdstanr`, `tidybayes`. Also, it includes `lme4`, `tidyverse`, `metafor`. I will include more packages in the future. You can also easily install new packages and save the docker images locally, please see the [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) I mentioned above.
 
 ## About docker
 
@@ -101,7 +101,6 @@ fit1 <- brm(count ~ zAge + zBase * Trt + (1|patient),
         data = epilepsy, family = poisson())
 
 # fit a testing model from brms, use cmdstanr as the backend
-library(cmdstanr)
 fit1 <- brm(count ~ zAge + zBase * Trt + (1|patient), 
 	    cores = parallel::detectCores(),
 	    chains = 4,  # this number should not exceed the number of cpus you assigned to docker.
