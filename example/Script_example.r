@@ -1,19 +1,11 @@
----
-title: "Notebook| Comparing JsPsych and Eprime"
-output:
-  html_document:
-    df_print: paged
----
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for comparing the data collected online and data from laboratory. The online data were collected via jsPsych, and the laboratory data were collected via E-prime. 
+### Example script"
 
-
-```{r load js data, warning=FALSE}
 library(tidyverse)
 
 rm(list = ls()) 
 
-df.js <- read.csv('df_pilot_online_SALT_open.csv') %>%
+df.js <- read.csv('./example/df_example.csv') %>%
       dplyr::rename(Matchness = match,
                     Valence = valence) %>%
       dplyr::mutate(Matchness = ifelse(Matchness == 'match', 'Match', 'Mismatch'),
@@ -129,113 +121,17 @@ df.js.v.wide <- merge(
                     d_Good = Good,
                     d_Neutral = Neutral)
 
-# write.csv(df.js.v.wide, file = 'df.js.sum_jasp.csv', row.names = F)
-```
 
-
-```{r load ep data, warning=FALSE}
-# data from E-prime
-df.ep <- read.csv('rawdata_behav_exp1a_201404_2019_export.csv', header = TRUE,
-                   sep = ",", stringsAsFactors=FALSE, na.strings=c("","NA"), encoding="UTF-8") %>%
-        dplyr::rename(subj_idx = 1) %>%  # using 'fileEncoding="UTF-8-BOM"' can solve the 1st column issue but make other issues
-        dplyr::mutate(Site = "THU", subj_idx = subj_idx + 1000,
-                      Val_lab = ifelse(Label == "好人", "Good",                      # re-code the label
-                                       ifelse(Label == "常人", "Neutral", "Bad")),
-                      Shape = ifelse(Shape == 'Normal', 'Neutral', Shape)) %>%
-      dplyr::rename(Matchness = YesNoResp,
-                    acc = Target.ACC,
-                    rt = Target.RT,
-                    Valence = Shape) %>%
-      dplyr::mutate(Matchness = ifelse(Matchness == 'Yes', 'Match', 'Mismatch'))
-
-df.ep.excld.sub <-  df.ep %>%
-        dplyr::filter(!is.na(BlockList.Sample)) %>%
-        dplyr::group_by(subj_idx) %>%
-        dplyr::summarise(N = n(),                    # caculate the overall accuracy for each subj_idx
-                         N_crrct = sum(acc),
-                         acc = sum(acc)/length(acc)) %>%
-        dplyr::filter(acc < 0.6) %>%                        # exlucde the participants with less than 60% overall accuracy
-        dplyr::pull(subj_idx)
-
-# The rate of excluded trials in valid data
-df.ep.invalid_trial_rate   <- df.ep %>%
-        dplyr::filter(!is.na(BlockList.Sample)) %>%
-        dplyr::filter(!(subj_idx %in% df.ep.excld.sub)) %>%   # exclude the invalid subj_idxs
-        dplyr::summarize(rate = length(rt[rt <= 200 & acc == 1])/length(rt)) %>%
-      dplyr::pull(rate)
-
-df.ep.v  <- df.ep %>%
-      dplyr::filter(!is.na(BlockList.Sample)) %>%
-      dplyr::filter(!(subj_idx %in% df.ep.excld.sub)) %>%         # exclude the invalid subj_idxs
-      dplyr::filter(!(rt <= 200))                      # exclude < 200 trials
-
-df.ep.v.basic <- df.ep.v %>%
-      dplyr::distinct(subj_idx, Age, Sex) %>%
-      dplyr::distinct(subj_idx, .keep_all = TRUE) %>%
-      dplyr::summarise(N = length(subj_idx),
-                       N_female = length(Sex[Sex == "female"]),
-                       N_male = length(Sex[Sex == "male"]),
-                       Age_mean = round(mean(Age,na.rm=TRUE),2),
-                       Age_sd = round(sd(Age,na.rm=TRUE),2),
-                       Age_missing = sum(is.na(Age)),
-                       Sex_missing = sum(is.na(Sex))) %>%
-      dplyr::mutate(Sample = 'E-Prime')
-
-# calculate d prime
-df.ep.v.dprime <- df.ep.v %>%
-      dplyr::select(subj_idx, Matchness, Valence, acc) %>%
-      dplyr::mutate(
-            hit = ifelse(acc == 1 & Matchness == "Match", 1, 0),    # hit
-            cr = ifelse(acc == 1 & Matchness != "Match", 1, 0),     # correct rejection
-            miss = ifelse(acc == 0 & Matchness == "Match", 1, 0),   # miss
-            fa = ifelse(acc == 0 & Matchness != "Match", 1, 0)      # false alarm
-      ) %>% 
-      dplyr::group_by(
-            subj_idx, Valence
-      ) %>% 
-      dplyr::summarise(
-            # rt = mean(as.integer(rt), na.rm = T),
-            hit = sum(hit),
-            fa = sum(fa),
-            miss = sum(miss),
-            cr = sum(cr)
-      ) %>% 
-      dplyr::mutate(
-            hitP = ifelse(hit / (hit + miss) < 1 & hit / (hit + miss) > 0, 
-                          hit / (hit + miss), 
-                          1 - 1/(2 * (hit + miss))),
-            faP = ifelse(fa / (fa + cr) > 0 & fa / (fa + cr) < 1, 
-                         fa / (fa + cr), 
-                         1/(2 * (fa + cr))),
-            dprime = qnorm(hitP) - qnorm(faP)
-      )
-
-# get the mean RT for each participant and each condition
-df.ep.v.RT<- df.ep.v %>%
-        dplyr::filter(acc == 1) %>%
-        dplyr::group_by(subj_idx, Age, Sex, Matchness, Valence) %>%
-        dplyr::summarise(RT_m = mean(rt),
-                         RT_SD = sd(rt),
-                         Ntrial = length(rt)) %>%
-        dplyr::ungroup() %>%
-      dplyr::rename(rt = RT_m) %>%
-        dplyr::mutate(Valence = factor(Valence, levels = c("Good","Neutral","Bad")))
-
-```
-
-
-Below are the basic information of our two sample for Online (JsPsych) and laboratory (E-Prime).
-```{r basic info}
-df.v.basic <- rbind(df.ep.v.basic, df.js.v.basic) %>%
+# Below are the basic information of the data.
+df.v.basic <- df.js.v.basic %>%
       dplyr::select(Sample, N, N_female, N_male, Age_mean, Age_sd)
 
 print(df.v.basic)
-```
 
-We then compare the mean RT and *d* prime (calculated in signal detection theory).
 
-First, define a function to plot the data. We may try `raincloud` in the future.
-```{r define plot fun}
+#### We then compare the mean RT and *d* prime (calculated in signal detection theory).
+
+# First, define a function to plot the data. We may try `raincloud` in the future.
 Val_plot_NHST <- function(df.rt, df.d){
       df.plot <- df.rt %>%
             dplyr::filter(Matchness == 'Match') %>%  # select matching data for plotting only.
@@ -333,24 +229,11 @@ Val_plot_NHST <- function(df.rt, df.d){
       return(p_df_sum)
 }
 
-```
 
-Then, plot the data from both samples.
-```{r plot}
+# Then, plot the data from both samples.
+
 p_js <- Val_plot_NHST(df.js.v.RT, df.js.v.dprime)
 p_js <- p_js + 
-  ggtitle('A. Data from online (jsPsych)')
+  ggtitle('Social Associative Learning Task data, collected online (jsPsych)')
 
-p_ep <- Val_plot_NHST(df.ep.v.RT, df.ep.v.dprime)
-p_ep <- p_ep + 
-  ggtitle('B. Data from laboratory (E-Prime)')
-```
-
-```{r plot all, fig.cap="Comparing the effect of moral valence on RT and d'", fig.height=12, fig.width=8, warning=FALSE}
-library(patchwork)
-# (p_rt1 | p_dprime1)
-p <- p_js / p_ep + plot_layout(nrow = 2, byrow = TRUE)
-
-ggsave('pilot_comp.png', p, width = 8, height = 12)
-p
-```
+p_js

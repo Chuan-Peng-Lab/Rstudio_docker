@@ -25,7 +25,7 @@ Mac OS: https://docs.docker.com/docker-for-mac/install/
 ### Step 2: pull this image form dock hub
 
 ```
-docker pull hcp4715/rstudio_bayes            # docker will try to find a image "hcp4715/rstudio_bayes:latest"
+docker pull hcp4715/rstudio_bayes            # this doesn't work, because docker will try to find a image "hcp4715/rstudio_bayes:latest"
 docker pull hcp4715/rstudio_bayes:cmdstanr   # docker will try to find a image "hcp4715/rstudio_bayes:cmdstanr"
 ```
 
@@ -110,3 +110,11 @@ fit1 <- brm(count ~ zAge + zBase * Trt + (1|patient),
 # check the summary of the model
 summary(fit1)
 ```
+
+### Build docker image from Dockerfile
+
+```
+docker build -t your_user_name/your_docker_image_name:your_tag -f Dockerfile .
+```
+
+Replace the `your_user_name/your_docker_image_name:your_tag` part with your own information. For example, I used`docker build -t hcp4715/rstudio_bayes:cmdstanr -f Dockerfile .`
