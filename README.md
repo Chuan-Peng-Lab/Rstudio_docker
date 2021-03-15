@@ -1,6 +1,6 @@
-# rstudio_docker (my working env)
+# rstudio_docker (working env of the lab)
 
-This repo is to ensure reproducibility of analyses from [Hu Chuan-Peng](https://huchuanpeng.com/)'s team. This [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) helped me to build and maintain this repo, many thanks.
+This repo is to ensure reproducibility of analyses from [Hu Chuan-Peng](https://huchuanpeng.com/)'s team. This [tutorial](http://ropenscilabs.github.io/r-docker-tutorial/) helped us to build and maintain this repo, many thanks.
 
 The primary purpose of this docker image is to ensure my collaborators can run `brms` across different platforms, so that they don't need to worry about the installation problems.
 
@@ -118,3 +118,8 @@ docker build -t your_user_name/your_docker_image_name:your_tag -f Dockerfile .
 ```
 
 Replace the `your_user_name/your_docker_image_name:your_tag` part with your own information. For example, I used`docker build -t hcp4715/rstudio_bayes:cmdstanr -f Dockerfile .`
+
+
+### Final note
+
+Docker is not perfect (yet). First, this docker images doesn't work on Mac with M1 chip. Second, on some Mac book, even this docker image can run, but when running `brms`, only we can only work with `cmdstanr` as the backend, not `rstan`. See issues for the details. 
