@@ -72,19 +72,19 @@ hcp4715/rstudio_bayes:cmdstanr ---- The docker image to run. Note that you shoud
 [services.d] done.
 ```
 
-Then, open your broswer (e.g., firefox, chrome), and input the follow in the address:
+Then, open your broswer (e.g., firefox, chrome), and try one of the following url in the address:
 
-`localhost:8787` (for linux)
+`localhost:8787`
 
-`http://192.168.99.100:8787` (for windows)
+`http://192.168.99.100:8787`
 
 
-You are asked to input username and password
+You will be asked to input username and password
 
 Username: rstudio
 Password: hcplab2021
 
-Now, you will see the familiar interface of rstudio! in the broswer!
+Now, you will see the familiar interface of rstudio! In the broswer!
 
 ### Step 4: test the iamge
 
@@ -96,14 +96,14 @@ library(tidyverse)
 
 # fit a testing model from brms, use rstan as the backend
 fit1 <- brm(count ~ zAge + zBase * Trt + (1|patient), 
-	    cores = parallel::detectCores(),
-	    chains = 4,  # this number should not exceed the number of cpus you assigned to docker.
+	    cores = parallel::detectCores(), # detect how many cpus/threads are available
+	    chains = 4,
         data = epilepsy, family = poisson())
 
 # fit a testing model from brms, use cmdstanr as the backend
 fit1 <- brm(count ~ zAge + zBase * Trt + (1|patient), 
-	    cores = parallel::detectCores(),
-	    chains = 4,  # this number should not exceed the number of cpus you assigned to docker.
+	    cores = parallel::detectCores(), # detect how many cpus/threads are available
+	    chains = 4,  
 		backend = 'cmdstanr',
         data = epilepsy, family = poisson())
 
@@ -122,4 +122,4 @@ Replace the `your_user_name/your_docker_image_name:your_tag` part with your own 
 
 ### Final note
 
-Docker is not perfect (yet). First, this docker images doesn't work on Mac with M1 chip. Second, on some Mac book, even this docker image can run, but when running `brms`, only we can only work with `cmdstanr` as the backend, not `rstan`. See issues for the details. 
+Docker is not perfect (yet). First, this docker image doesn't work on Mac with M1 chip. Second, on some Mac book, this docker image does not work perfectly: when running `brms`, it can only work when using `cmdstanr` as the backend, not `rstan`. See issues for the details. 
