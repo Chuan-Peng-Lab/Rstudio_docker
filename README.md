@@ -12,7 +12,8 @@ Please see [here](https://www.docker.com/resources/what-container) for why using
 
 ### Tag
 
-r4.3.1: R 4.3.1; CmdStan 2.33.1; rstan 2.32.3; tidyverse 2.0.0; lme4 1.1-34
+r4.3.1-arm64: for m1 chips; R 4.3.1; CmdStan 2.33.1; rstan 2.32.3; tidyverse 2.0.0; lme4 1.1-34
+
 
 ## How to use this docker images
 
