@@ -100,10 +100,7 @@ Open `cmdstanrTest.r` in the example folder and run, if you can run it without e
 ### Build docker image from Dockerfile
 
 ```
-docker build -t your_user_name/your_docker_image_name:your_tag -f Dockerfile .
+docker build -t your_user_name/your_docker_image_name:your_tag -f arm64.Dockerfile .
 ```
 
-Replace the `your_user_name/your_docker_image_name:your_tag` part with your own information. For example, I used`docker build -t hcp4715/rstudio_bayes:cmdstanr -f Dockerfile .`
-
-
-### Final note
+Replace the `your_user_name/your_docker_image_name:your_tag` part with your own information. For example, I used`docker build -t hcp4715/rstudio_bayes:cmdstanr -f Dockerfile .` Also replace the `arm64.Dockerfile` with other Dockerfile if your machine is not with apple chips.
