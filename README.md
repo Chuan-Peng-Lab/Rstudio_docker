@@ -10,6 +10,11 @@ This docker image can be used for Bayesian analyses, it includes the following p
 
 Please see [here](https://www.docker.com/resources/what-container) for why using docker.
 
+### Tag
+
+r4.3.1-arm64: for m1 chips; R 4.3.1; CmdStan 2.33.1; rstan 2.32.3; tidyverse 2.0.0; lme4 1.1-34
+
+
 ## How to use this docker images
 
 ### Step 1: install docker
@@ -24,6 +29,8 @@ Mac OS: https://docs.docker.com/docker-for-mac/install/
 
 ### Step 2: pull this image form dock hub
 
+Choose the right tag!
+
 ```
 docker pull hcp4715/rstudio_bayes            # this doesn't work, because docker will try to find a image "hcp4715/rstudio_bayes:latest"
 docker pull hcp4715/rstudio_bayes:cmdstanr   # docker will try to find a image "hcp4715/rstudio_bayes:cmdstanr"
@@ -32,12 +39,12 @@ docker pull hcp4715/rstudio_bayes:cmdstanr   # docker will try to find a image "
 ### Step 3: run the docker image:
 
 ```
-docker run -e PASSWORD=hcplab2021 --cpus=4 -it --rm -p 8787:8787 -v /home/hcp4715/docker_R:/home/rstudio/tutorial hcp4715/rstudio_bayes:cmdstanr
+docker run -e PASSWORD=hcplab --cpus=4 -it --rm -p 8787:8787 -v /home/hcp4715/docker_R:/home/rstudio/tutorial hcp4715/rstudio_bayes:cmdstanr
 ```
 
 docker run ---- Run a docker image in a container
 
--e PASSWORD=hcplab2021 ---- set a password for rstudio, you can set your own password.
+-e PASSWORD=hcplab ---- set a password for rstudio, you can set your own password.
 
 -it ---- Keep STDIN open even if not attached
 
@@ -82,46 +89,20 @@ Then, open your broswer (e.g., firefox, chrome), and try one of the following ur
 You will be asked to input username and password
 
 Username: rstudio
-Password: hcplab2021
+Password: hcplab
 
 Now, you will see the familiar interface of rstudio! In the broswer!
 
 ### Step 4: test the iamge
 
-Run the code below to test whether the image works
-```
-# load the libraries
-library(brms)
-library(tidyverse)
-
-# fit a testing model from brms, use rstan as the backend
-fit1 <- brm(count ~ zAge + zBase * Trt + (1|patient), 
-	    cores = parallel::detectCores(), # detect how many cpus/threads are available
-	    chains = 4,
-        data = epilepsy, family = poisson())
-
-# fit a testing model from brms, use cmdstanr as the backend
-fit1 <- brm(count ~ zAge + zBase * Trt + (1|patient), 
-	    cores = parallel::detectCores(), # detect how many cpus/threads are available
-	    chains = 4,  
-		backend = 'cmdstanr',
-        data = epilepsy, family = poisson())
-
-# check the summary of the model
-summary(fit1)
-```
+Open `cmdstanrTest.r` in the example folder and run, if you can run it without error, then this image works
 
 ### Build docker image from Dockerfile
 
 This requires about 30 minutes.
 
 ```
-docker build -t your_user_name/your_docker_image_name:your_tag -f Dockerfile .
+docker build -t your_user_name/your_docker_image_name:your_tag -f arm64.Dockerfile .
 ```
 
-Replace the `your_user_name/your_docker_image_name:your_tag` part with your own information. For example, I used`docker build -t hcp4715/rstudio_bayes:cmdstanr -f Dockerfile .`
-
-
-### Final note
-
-Docker is not perfect (yet). First, this docker image doesn't work on Mac with M1 chip. Second, on some Mac book, this docker image does not work perfectly: when running `brms`, it can only work when using `cmdstanr` as the backend, not `rstan`. See issues for the details. 
+Replace the `your_user_name/your_docker_image_name:your_tag` part with your own information. For example, I used`docker build -t hcp4715/rstudio_bayes:cmdstanr -f Dockerfile .` Also replace the `arm64.Dockerfile` with other Dockerfile if your machine is not with apple chips.
