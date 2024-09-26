@@ -1,9 +1,8 @@
 ###### uncomment the code below, you can use the latest verse
 # ARG BASE_CONTAINER=rocker/verse:latest
 
-# I fixed this image to use 4.04 based R
-# https://hub.docker.com/layers/rocker/verse/4.0.4/images/sha256-c98bc2327babaef10deb3f0aad3eebe6fc981f0f835da6735cbd33c3468fd2b7?context=explore
-ARG BASE_CONTAINER=rocker/verse:4.0.4
+# rocker/rstudio:4.4.1
+ARG BASE_CONTAINER=rocker/rstudio:4.4.1
 FROM $BASE_CONTAINER
 
 # install r packages
@@ -11,6 +10,9 @@ RUN R -e "install.packages('tidyverse', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('brms', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('osfr', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('cmdstanr', repos = c('https://mc-stan.org/r-packages/', getOption('repos')))"
+#RUN R -e "install.packages('tinytex', repos = 'http://cran.us.r-project.org')"
+#RUN R -e "tinytex::install_tinytex()"
+RUN R -e "install.packages('papaja', repos = 'http://cran.us.r-project.org')"
 
 # install cmdstanr
 RUN mkdir -p /home/rstudio/.cmdstanr

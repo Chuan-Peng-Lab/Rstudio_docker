@@ -113,6 +113,8 @@ summary(fit1)
 
 ### Build docker image from Dockerfile
 
+This requires about 30 minutes.
+
 ```
 docker build -t your_user_name/your_docker_image_name:your_tag -f Dockerfile .
 ```

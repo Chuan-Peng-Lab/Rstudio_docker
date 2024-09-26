@@ -1,0 +1,40 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# IDE files
+.vscode
+.idea
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+
+# Node modules (if applicable)
+node_modules
+
+# Python cache (if applicable)
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# R files (if applicable)
+.Rhistory
+.RData
+
+# Build outputs (if applicable)
+/build
+/dist
+
+# Any other files or directories you don't want in your Docker image
