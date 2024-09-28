@@ -43,8 +43,8 @@ ENV PATH="/home/rstudio/.cmdstanr:${PATH}"
 RUN R -e "cmdstanr::install_cmdstan(dir = '/home/rstudio/.cmdstanr', cores = 4)"
 
 # add data and script for testing
-RUN mkdir -p /home/rstudio/example/
-COPY /example/Script_example.Rmd /home/rstudio/example/
-COPY /example/Script_example.r /home/rstudio/example/
-COPY /example/df_example.csv /home/rstudio/example/
-COPY /example/cmdstanrTest.r /home/rstudio/example/
+# RUN mkdir -p /home/rstudio/example/
+# COPY /example/Script_example.Rmd /home/rstudio/example/
+# COPY /example/Script_example.r /home/rstudio/example/
+# COPY /example/df_example.csv /home/rstudio/example/
+# COPY /example/cmdstanrTest.r /home/rstudio/example/

@@ -30,7 +30,7 @@ by running the following command in R.
 
 ```{r install, eval=FALSE}
 # we recommend running this is a fresh R session or restarting your current session
-install.packages("cmdstanr", repos = c('https://stan-dev.r-universe.dev', getOption("repos")))
+# install.packages("cmdstanr", repos = c('https://stan-dev.r-universe.dev', getOption("repos")))
 ```
 
 We can now load the package like any other R package. We'll also load the
@@ -66,12 +66,12 @@ calling the
 function:
 
 ```{r install_cmdstan-1, include = FALSE}
-if (!dir.exists(cmdstan_default_path())) {
-  install_cmdstan()
-}
+# if (!dir.exists(cmdstan_default_path())) {
+#   install_cmdstan()
+# }
 ```
 ```{r install_cmdstan-2, eval=FALSE}
-install_cmdstan(cores = 2)
+# install_cmdstan(cores = 2)
 ```
 
 Before CmdStanR can be used it needs to know where the CmdStan installation is
